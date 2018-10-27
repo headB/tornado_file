@@ -1,6 +1,8 @@
 import tornado.web
 import tornado.ioloop
 import tornado.options
+#如果要手动启动多进程的话,需要外部引入其他的模块
+import tornado.httpserver
 
 class IndexHandler(tornado.web.RequestHandler):
     """主页处理类"""
@@ -20,6 +22,12 @@ if __name__ == '__main__':
     tornado.options.parse_command_line()
 
     #开启debug模式
-    app = tornado.web.Application([(r"/",IndexHandler)],debug=True)
-    app.listen(8000)
+    #app = tornado.web.Application([(r"/",IndexHandler)],debug=True)
+    #注意了,关于如果开启多进程的时候,记得一定需要把debug模式关掉,不然就出现问题.
+    app = tornado.web.Application([(r"/",IndexHandler)])
+    # app.listen(8000)
+    # tornado.ioloop.IOLoop.current().start()
+    http_server = tornado.httpserver.HTTPServer(app)
+    http_server.bind(8000)
+    http_server.start(0)
     tornado.ioloop.IOLoop.current().start()
