@@ -2,7 +2,10 @@ import tornado.web
 import tornado.ioloop
 import tornado.options
 #如果要手动启动多进程的话,需要外部引入其他的模块
-import tornado.httpserver
+#import tornado.httpserver
+
+tornado.options.options.define("port",default=8000,type=int,help="what the help you talk about?")
+
 
 class IndexHandler(tornado.web.RequestHandler):
     """主页处理类"""
@@ -25,9 +28,6 @@ if __name__ == '__main__':
     #app = tornado.web.Application([(r"/",IndexHandler)],debug=True)
     #注意了,关于如果开启多进程的时候,记得一定需要把debug模式关掉,不然就出现问题.
     app = tornado.web.Application([(r"/",IndexHandler)])
-    # app.listen(8000)
-    # tornado.ioloop.IOLoop.current().start()
-    http_server = tornado.httpserver.HTTPServer(app)
-    http_server.bind(8000)
-    http_server.start(0)
+    app.listen(tornado.options.options.port)
     tornado.ioloop.IOLoop.current().start()
+    
