@@ -4,7 +4,7 @@ import tornado.options
 #如果要手动启动多进程的话,需要外部引入其他的模块
 #import tornado.httpserver
 
-tornado.options.options.define("port",default=8000,type=int,help="what the help you talk about?")
+tornado.options.define("port",default=8000,type=int,help="what the help you talk about?")
 
 
 class IndexHandler(tornado.web.RequestHandler):
