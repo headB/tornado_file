@@ -1,4 +1,5 @@
 import tornado.web
+from tornado.web import url,RequestHandler
 import tornado.ioloop
 import tornado.options
 #如果要手动启动多进程的话,需要外部引入其他的模块
@@ -11,19 +12,36 @@ parse_command_line()
 tornado.options.define("port",default=8000,type=int,help="what the help you talk about?")
 
 
-class IndexHandler(tornado.web.RequestHandler):
+class IndexHandler(RequestHandler):
     """主页处理类"""
 
     def get(self):
 
-        self.write("hello wolfcode")
+        try:
+            values1 = self.get_query_argument("name",strip=True)
+        except Exception as e:
+            self.write("缺少关键字name的数值")
+
+        else:
+            self.write("hello wolfcode")
+        finally:
+            self.write("我是最后的最后!")
 
 
-class EchoInfo(tornado.web.RequestHandler):
+class EchoInfo(RequestHandler):
 
     def post(self):
 
-        self.write("I am the Kumanxuan")
+        try:
+            values1 = self.get_body_argument("name",strip=True)
+        except Exception as e:
+            self.write("缺少关键字name的数值")
+
+        else:
+            print(values1)
+            self.write("hello wolfcode")
+        finally:
+            self.write("我是最后的最后!")
 
 
 
@@ -40,7 +58,12 @@ if __name__ == '__main__':
     #开启debug模式
     #app = tornado.web.Application([(r"/",IndexHandler)],debug=True)
     #注意了,关于如果开启多进程的时候,记得一定需要把debug模式关掉,不然就出现问题.
-    app = tornado.web.Application([(r"/",IndexHandler),(r"/li",EchoInfo)],debug=True)
+    app = tornado.web.Application([
+        (r"/",IndexHandler),
+        (r"/li",EchoInfo),
+        url(r"/kumanxuan",EchoInfo,name="testUrl"),
+        
+        ],debug=True)
     #app.listen(tornado.options.options.port)
 
     #下面这些是多进程的代码部分==========开始================
