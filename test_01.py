@@ -63,6 +63,19 @@ class EchoInfo(RequestHandler):
             self.write("我是最后的最后!")
 
 
+#测试文件上传??
+class uploadInfo(RequestHandler):
+
+    #定义上传方法
+    #post方法
+    def post(self):
+        images = self.request.files
+        images_info = images.get("image")
+        with open("image.png","wb") as file1:
+            file1.write(images_info[0]["body"])
+
+        self.write("OK")
+
 
 
 if __name__ == '__main__':
@@ -81,6 +94,7 @@ if __name__ == '__main__':
         (r"/",IndexHandler),
         (r"/li",EchoInfo),
         url(r"/kumanxuan",EchoInfo,name="testUrl"),
+        url(r"/upload",uploadInfo,name="upload"),
         
         ],debug=True)
     #app.listen(tornado.options.options.port)
