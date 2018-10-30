@@ -12,16 +12,35 @@ parse_command_line()
 tornado.options.define("port",default=8000,type=int,help="what the help you talk about?")
 
 
+def function1():
+
+    x1 = 1
+    x2 = 2
+
+    if x1 == 1:
+        raise NameError("you have fail")
+
+    return "xx"
+
+
+
 class IndexHandler(RequestHandler):
     """主页处理类"""
 
     def get(self):
-
+        
         try:
+            # function1()
+            # 1 / 0 
             values1 = self.get_query_argument("name",strip=True)
-        except Exception as e:
-            self.write("缺少关键字name的数值")
 
+        except (NameError) as e:
+            print(e)
+            self.write("发生错误,可能是因为缺少name参数,get方式的")
+
+        except Exception:
+            self.write("发生其他错误!")
+    
         else:
             self.write("hello wolfcode")
         finally:
