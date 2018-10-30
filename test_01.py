@@ -3,6 +3,10 @@ import tornado.ioloop
 import tornado.options
 #如果要手动启动多进程的话,需要外部引入其他的模块
 import tornado.httpserver
+#添加日志功能
+from tornado.options import parse_command_line,options
+#options.logging = None
+parse_command_line()
 
 tornado.options.define("port",default=8000,type=int,help="what the help you talk about?")
 
