@@ -52,7 +52,7 @@ class EchoInfo(RequestHandler):
     def post(self):
 
         try:
-            values1 = self.get_argument("name",strip=True)
+            values1 = self.get_arguments("name",strip=True)
         except Exception as e:
             self.write("缺少关键字name的数值")
 
