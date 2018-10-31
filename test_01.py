@@ -1,5 +1,5 @@
 import tornado.web
-from tornado.web import url,RequestHandler
+from tornado.web import url,RequestHandler,StaticFileHandler
 import tornado.ioloop
 import tornado.options
 #如果要手动启动多进程的话,需要外部引入其他的模块
@@ -11,6 +11,7 @@ parse_command_line()
 import os
 #os sys
 #稍微想一下他们的区别
+current_path = os.path.dirname(__file__)
 
 tornado.options.define("port",default=8000,type=int,help="what the help you talk about?")
 
@@ -134,6 +135,7 @@ if __name__ == '__main__':
         url(r"/detail/(.+)/(\d+)",testUri,name='testUri'),
         url(r"/detail/(?P<age>\d+)/(?P<name>.+)",testUri,name='testUri1'),
         url(r"/json",testJson,name='json'),
+        (r'^/view/(.*)$', StaticFileHandler, {"path":os.path.join(current_path, "statics"),"default_filename":"info.html"}),
         ],debug=True,static_path=os.path.join(os.path.dirname(__file__),"statics"))
     #app.listen(tornado.options.options.port)
 
