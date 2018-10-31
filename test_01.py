@@ -11,6 +11,12 @@ parse_command_line()
 import os
 #os sys
 #稍微想一下他们的区别
+
+
+#开始操作数据库
+import torndb
+
+
 current_path = os.path.dirname(__file__)
 
 tornado.options.define("port",default=8000,type=int,help="what the help you talk about?")
@@ -138,6 +144,18 @@ class testJson(RequestHandler):
             
             self.write(dict_content)
 
+
+#测试数据库
+class testDB(RequestHandler):
+
+    def get(self):
+
+        info = self.application.db.get("select * from houses")
+
+        print(info)
+        
+        self.write("hello world!")
+
 if __name__ == '__main__':
     #添加下面这条语句的话,会转换 启动时候,会转换那些在给模块传递的参数,
     #举例,python manage -h cc -b ff 这些.
@@ -153,6 +171,7 @@ if __name__ == '__main__':
     app = tornado.web.Application([
         (r"/",IndexHandler),
         (r"/li",EchoInfo),
+        (r"/testdb",testDB),
         url(r"/kumanxuan",EchoInfo,name="testUrl"),
         url(r"/upload",uploadInfo,name="upload"),
         url(r"/template",testTemplates,name="template"),
@@ -164,6 +183,14 @@ if __name__ == '__main__':
         static_path=os.path.join(os.path.dirname(__file__),"statics"),
         template_path=os.path.join(os.path.dirname(__file__),"templates"),
         )
+
+    app.db = torndb.Connection(
+            host="127.0.0.1",
+            database="itcast",
+            user="root",
+            password="kumanxuan@gzitcast"
+        )
+
     #app.listen(tornado.options.options.port)
 
     #下面这些是多进程的代码部分==========开始================
