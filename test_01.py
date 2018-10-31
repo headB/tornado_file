@@ -1,5 +1,5 @@
 import tornado.web
-from tornado.web import url,RequestHandler,StaticFileHandler
+from tornado.web import url,RequestHandler,StaticFileHandler,Application
 import tornado.ioloop
 import tornado.options
 #如果要手动启动多进程的话,需要外部引入其他的模块
@@ -150,11 +150,25 @@ class testDB(RequestHandler):
 
     def get(self):
 
-        info = self.application.db.get("select * from houses")
+        request = self.get_query_argument("req",None,strip=True)
 
-        print(info)
+        if request == "insert":
+
+            info = self.application.db.execute("insert into houses(`title`) values('cctv')")
+            info1 = self.application.db.execute_rowcount("insert into houses(`title`) values('cctv')")
+
+            print(info)
+            print(info1)
+
+            self.write("sucess!")
         
-        self.write("hello world!")
+        else:
+
+            info = self.application.db.query("select * from houses")
+
+            print(info)
+            
+            self.write("hello world!")
 
 if __name__ == '__main__':
     #添加下面这条语句的话,会转换 启动时候,会转换那些在给模块传递的参数,
