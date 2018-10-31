@@ -84,6 +84,31 @@ class uploadInfo(RequestHandler):
         self.write("OK")
 
 
+#测试json是否自动转换
+class testJson(RequestHandler):
+
+    def get(self):
+
+        #测试跳转
+        url = self.get_query_argument("url",None,strip=True)
+        
+        print(url)
+        print(type(url))
+        if url == None:
+
+            self.redirect("https://www.baidu.com")
+
+        else:
+            #设置字典
+            dict_content = {
+                "name":"lizhixuan",
+                "age":"18"
+            }
+
+            self.set_header("name","kumanxuan")
+            self.set_status(211)
+            
+            self.write(dict_content)
 
 if __name__ == '__main__':
     #添加下面这条语句的话,会转换 启动时候,会转换那些在给模块传递的参数,
@@ -104,6 +129,7 @@ if __name__ == '__main__':
         url(r"/upload",uploadInfo,name="upload"),
         url(r"/detail/(.+)/(\d+)",testUri,name='testUri'),
         url(r"/detail/(?P<age>\d+)/(?P<name>.+)",testUri,name='testUri1'),
+        url(r"/json",testJson,name='json'),
         ],debug=True)
     #app.listen(tornado.options.options.port)
 
