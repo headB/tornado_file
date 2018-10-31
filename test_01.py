@@ -75,6 +75,29 @@ class testUri(RequestHandler):
         self.write(" first is %s, the second is %s" %(name,age))
 
 
+#测试模板
+class testTemplates(RequestHandler):
+
+    def get(self):
+
+        #尝试快速穿件一个生成式
+
+        numbers = [ x for x in range(5)]
+
+        #传递反向姐系url地址
+        url = self.reverse_url("testUrl")
+
+        info = {
+            "url":url,
+            "name":"beelte",
+            "age":'18',
+            "numbers":numbers,
+        }
+
+
+        self.render("info.html",**info)
+
+
 #测试文件上传??
 class uploadInfo(RequestHandler):
 
@@ -132,11 +155,15 @@ if __name__ == '__main__':
         (r"/li",EchoInfo),
         url(r"/kumanxuan",EchoInfo,name="testUrl"),
         url(r"/upload",uploadInfo,name="upload"),
+        url(r"/template",testTemplates,name="template"),
         url(r"/detail/(.+)/(\d+)",testUri,name='testUri'),
         url(r"/detail/(?P<age>\d+)/(?P<name>.+)",testUri,name='testUri1'),
         url(r"/json",testJson,name='json'),
         (r'^/view/(.*)$', StaticFileHandler, {"path":os.path.join(current_path, "statics"),"default_filename":"info.html"}),
-        ],debug=True,static_path=os.path.join(os.path.dirname(__file__),"statics"))
+        ],debug=True,
+        static_path=os.path.join(os.path.dirname(__file__),"statics"),
+        template_path=os.path.join(os.path.dirname(__file__),"templates"),
+        )
     #app.listen(tornado.options.options.port)
 
     #下面这些是多进程的代码部分==========开始================

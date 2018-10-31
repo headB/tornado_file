@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>欢迎访问这个非默认首页的页面</title>
+</head>
+<body>
+    
+    <center>
+        <h1>首先,我是大标题,我说,我说,我是属于模板的!</h1><hr>
+        <h3>创建来自tornado</h3>
+        
+        <br>
+
+        <br>
+
+        <h1>这里还有其他信息</h1>
+
+        <hr>
+
+        <h3>我就是:{{ name }}</h3>
+
+        然后现在想输出一个url地址,看这里<br>
+        <a href="{{ url }}" target="_blank" >我是链接</a><br>
+
+        <img width="600" height="600" src="{{ static_url('image.png') }}"  >
+
+        <br>
+
+        {% for x1 in numbers %}
+
+        <p>{{ x1 }}</p>
+
+        {% end %}
+
+    </center>
+
+</body>
+</html>
