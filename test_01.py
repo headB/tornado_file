@@ -62,6 +62,13 @@ class EchoInfo(RequestHandler):
         finally:
             self.write("我是最后的最后!")
 
+#测试提取uri
+class testUri(RequestHandler):
+
+    #这里定义get方法,好像django的,看起来挺习惯的!
+    def get(self,name,age):
+        self.write(" first is %s, the second is %s" %(name,age))
+
 
 #测试文件上传??
 class uploadInfo(RequestHandler):
@@ -95,7 +102,8 @@ if __name__ == '__main__':
         (r"/li",EchoInfo),
         url(r"/kumanxuan",EchoInfo,name="testUrl"),
         url(r"/upload",uploadInfo,name="upload"),
-        
+        url(r"/detail/(.+)/(\d+)",testUri,name='testUri'),
+        url(r"/detail/(?P<age>\d+)/(?P<name>.+)",testUri,name='testUri1'),
         ],debug=True)
     #app.listen(tornado.options.options.port)
 
