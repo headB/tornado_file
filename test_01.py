@@ -8,6 +8,9 @@ import tornado.httpserver
 from tornado.options import parse_command_line,options
 #options.logging = None
 parse_command_line()
+import os
+#os sys
+#稍微想一下他们的区别
 
 tornado.options.define("port",default=8000,type=int,help="what the help you talk about?")
 
@@ -44,6 +47,7 @@ class IndexHandler(RequestHandler):
         else:
             self.write("hello wolfcode")
         finally:
+
             self.write("我是最后的最后!")
 
 
@@ -130,7 +134,7 @@ if __name__ == '__main__':
         url(r"/detail/(.+)/(\d+)",testUri,name='testUri'),
         url(r"/detail/(?P<age>\d+)/(?P<name>.+)",testUri,name='testUri1'),
         url(r"/json",testJson,name='json'),
-        ],debug=True)
+        ],debug=True,static_path=os.path.join(os.path.dirname(__file__),"statics"))
     #app.listen(tornado.options.options.port)
 
     #下面这些是多进程的代码部分==========开始================
